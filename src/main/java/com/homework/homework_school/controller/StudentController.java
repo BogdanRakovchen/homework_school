@@ -4,11 +4,10 @@ import com.homework.homework_school.model.Student;
 import com.homework.homework_school.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -19,16 +18,18 @@ public class StudentController {
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
+
         return studentService.createStudent(student);
     }
 
-    @GetMapping({"id"})
-    public Student getStudent(Long id) {
+    @GetMapping("/student")
+    public Student getStudent(@RequestParam Long id) {
         return studentService.getStudent(id);
     }
 
     @GetMapping()
-    public Stream<Student> getAllStudentOfAge(int age) {
+    public Student getAllStudentOfAge(int age) {
+
         return studentService.getAllStudent(age);
     }
 
@@ -37,9 +38,9 @@ public class StudentController {
         return studentService.updateStudent(student.getId(), student);
     }
 
-    @DeleteMapping({"id"})
-    public Student deleteStudent(Long id) {
-        return studentService.deleteStudent(id);
+    @DeleteMapping("/student")
+    public void deleteStudent(@RequestParam Long id) {
+        studentService.deleteStudent(id);
     }
 
 

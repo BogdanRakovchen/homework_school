@@ -1,42 +1,55 @@
 package com.homework.homework_school.service;
 
 import com.homework.homework_school.model.Student;
+import com.homework.homework_school.repository.StudentRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
+
+
+import java.util.List;
+
 @Service
 public class StudentService {
+    @Autowired
+    private final StudentRepository studentRepository;
+    public StudentService(StudentRepository studentRepository) {
 
-    private Long id = 0L;
-    Map<Long, Student> studentMap = new HashMap<>();
+        this.studentRepository = studentRepository;
+    }
 
     public Student createStudent(Student student) {
-        student.setId(++id);
-        studentMap.put(id, student);
-        return student;
+
+        return studentRepository.save(student);
     }
 
     public Student getStudent(Long id) {
-        return studentMap.get(id);
+        return studentRepository.findById(id).get();
 
     }
 
-    public Stream<Student> getAllStudent(int age) {
-        Stream<Student> student = studentMap.values().stream().filter(s -> s.getAge() == age);
-        return student;
+    public Student getAllStudent(int age) {
+        List<Student> student = studentRepository.findAll();
+        for (Student student1 : student) {
+            if(student1.getAge() == age) {
+                return studentRepository.save(student1);
+            }
+        }
+        return (Student) student;
     }
 
     public Student updateStudent(Long id, Student student) {
-        studentMap.put(id, student);
-        return student;
+        Student newStudent = studentRepository.findById(id).get();
+        return studentRepository.save(newStudent);
     }
 
-    public Student deleteStudent(Long id) {
-        return studentMap.remove(id);
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
 
     }
+
+
 
 }
-

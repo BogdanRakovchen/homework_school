@@ -1,41 +1,57 @@
 package com.homework.homework_school.service;
 
 import com.homework.homework_school.model.Faculty;
+import com.homework.homework_school.model.Student;
+import com.homework.homework_school.repository.FacultyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
 
-    private Long id = 0L;
-    Map<Long, Faculty> facultyMap = new HashMap<>();
+
+    @Autowired
+    private final FacultyRepository facultyRepository;
+
+    public FacultyService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
+
+
 
     public Faculty createFaculty(Faculty faculty) {
-        faculty.setId(++id);
-        facultyMap.put(id, faculty);
-        return faculty;
+      return facultyRepository.save(faculty);
     }
 
     public Faculty getFaculty(Long id) {
-        return facultyMap.get(id);
+        return facultyRepository.findById(id).get();
 
     }
 
-    public Stream<Faculty> getAllFaculty(String color) {
-        Stream<Faculty> faculty = facultyMap.values().stream().filter(s -> s.getColor() == color);
-        return faculty;
+    public Faculty getAllFaculty(String color) {
+        List<Faculty> faculty = facultyRepository.findAll();
+        for (Faculty faculty1 : faculty) {
+            if(faculty1.getColor() == color) {
+                return facultyRepository.save(faculty1);
+            }
+        }
+        return (Faculty) faculty;
     }
 
     public Faculty updateFaculty(Long id, Faculty faculty) {
-        facultyMap.put(id, faculty);
-        return faculty;
+        Faculty newFaculty = facultyRepository.findById(id).get();
+        return facultyRepository.save(newFaculty);
     }
 
-    public Faculty deleteFaculty(Long id) {
-        return facultyMap.remove(id);
+    public void deleteFaculty(Long id) {
+         facultyRepository.deleteById(id);
 
     }
 }

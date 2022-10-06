@@ -4,10 +4,11 @@ import com.homework.homework_school.model.Faculty;
 import com.homework.homework_school.service.FacultyService;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("faculty")
+@RequestMapping("facultys")
 public class FacultyController {
     private final FacultyService facultyService;
 
@@ -20,12 +21,12 @@ public class FacultyController {
         return facultyService.createFaculty(faculty);
     }
 
-    @GetMapping({"id"})
-    public Faculty getFaculty(Long id) {
+    @GetMapping("/faculty")
+    public Faculty getFaculty(@RequestParam Long id) {
         return facultyService.getFaculty(id);
     }
     @GetMapping()
-    public Stream<Faculty> getAllFacultyOfColor(String color) {
+    public Faculty getAllFacultyOfColor(String color) {
 
         return facultyService.getAllFaculty(color);
     }
@@ -37,8 +38,8 @@ public class FacultyController {
         return facultyService.updateFaculty(faculty.getId(), faculty);
     }
 
-    @DeleteMapping({"id"})
-    public Faculty deleteFaculty(Long id) {
-        return facultyService.deleteFaculty(id);
+    @DeleteMapping("/faculty")
+    public void deleteFaculty(@RequestParam Long id) {
+         facultyService.deleteFaculty(id);
     }
 }
