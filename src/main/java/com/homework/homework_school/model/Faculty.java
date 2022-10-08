@@ -1,9 +1,11 @@
 package com.homework.homework_school.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Faculty {
@@ -12,6 +14,12 @@ public class Faculty {
     private Long id;
     private String name;
     private String color;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "faculty")
+    private Collection<Student> students;
+
+
 
 
     public Long getId() {
@@ -58,5 +66,10 @@ public class Faculty {
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
                 '}';
+    }
+
+
+    public Collection<Student> getStudents() {
+        return students;
     }
 }

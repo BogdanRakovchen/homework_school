@@ -1,13 +1,13 @@
 package com.homework.homework_school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Student {
@@ -16,6 +16,14 @@ public class Student {
     private Long id;
     private String name;
     private int age;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
+
+
+
 
     public Long getId() {
         return id;
@@ -61,5 +69,10 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+
+    public Faculty getFaculty() {
+        return faculty;
     }
 }

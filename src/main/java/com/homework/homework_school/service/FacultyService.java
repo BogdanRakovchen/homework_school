@@ -3,14 +3,14 @@ package com.homework.homework_school.service;
 import com.homework.homework_school.model.Faculty;
 import com.homework.homework_school.model.Student;
 import com.homework.homework_school.repository.FacultyRepository;
+import com.homework.homework_school.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -20,8 +20,15 @@ public class FacultyService {
     @Autowired
     private final FacultyRepository facultyRepository;
 
-    public FacultyService(FacultyRepository facultyRepository) {
+    @Autowired
+    private final StudentRepository studentRepository;
+
+    public FacultyService(FacultyRepository facultyRepository, StudentRepository studentRepository) {
+
+
         this.facultyRepository = facultyRepository;
+        this.studentRepository = studentRepository;
+
     }
 
 
@@ -34,6 +41,20 @@ public class FacultyService {
         return facultyRepository.findById(id).get();
 
     }
+
+    public Collection<Student> getStudentsOfFaculty(Long id) {
+        Collection<Student> students = null;
+        Long idx = facultyRepository.findById(id).get().getId();
+        if(idx == id) {
+           students = facultyRepository.findById(id).get().getStudents();
+        };
+        return students;
+    }
+
+    public Faculty findByNameContainsIgnoreCase(String nameOrColor) {
+        return facultyRepository.findByNameContainsIgnoreCase(nameOrColor);
+    }
+
 
     public Faculty getAllFaculty(String color) {
         List<Faculty> faculty = facultyRepository.findAll();

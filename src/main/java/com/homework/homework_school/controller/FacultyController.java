@@ -1,10 +1,13 @@
 package com.homework.homework_school.controller;
 
 import com.homework.homework_school.model.Faculty;
+import com.homework.homework_school.model.Student;
 import com.homework.homework_school.service.FacultyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Collection;
 import java.util.stream.Stream;
 
 @RestController
@@ -30,6 +33,17 @@ public class FacultyController {
 
         return facultyService.getAllFaculty(color);
     }
+
+    @GetMapping("/studentsOfFaculty")
+    public Collection<Student> getStudentsOfFaculty(@RequestParam Long id) {
+        return facultyService.getStudentsOfFaculty(id);
+    }
+
+    @GetMapping("/facultyOfName")
+    public ResponseEntity<Faculty> findByNameContainsIgnoreCase(@RequestParam String nameOrColor) {
+        return ResponseEntity.ok(facultyService.findByNameContainsIgnoreCase(nameOrColor));
+    }
+
 
 
 
