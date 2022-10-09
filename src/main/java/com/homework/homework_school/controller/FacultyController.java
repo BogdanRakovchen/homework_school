@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("facultys")
+@RequestMapping("/facultys")
 public class FacultyController {
     private final FacultyService facultyService;
 
@@ -24,8 +24,8 @@ public class FacultyController {
         return facultyService.createFaculty(faculty);
     }
 
-    @GetMapping("/faculty")
-    public Faculty getFaculty(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public Faculty getFaculty(@PathVariable("id") Long id) {
         return facultyService.getFaculty(id);
     }
     @GetMapping()
@@ -34,14 +34,15 @@ public class FacultyController {
         return facultyService.getAllFaculty(color);
     }
 
-    @GetMapping("/studentsOfFaculty")
-    public Collection<Student> getStudentsOfFaculty(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public Collection<Student> getStudentsOfFaculty(@PathVariable("id") Long id) {
         return facultyService.getStudentsOfFaculty(id);
     }
 
     @GetMapping("/facultyOfName")
-    public ResponseEntity<Faculty> findByNameContainsIgnoreCase(@RequestParam String nameOrColor) {
-        return ResponseEntity.ok(facultyService.findByNameContainsIgnoreCase(nameOrColor));
+    public ResponseEntity<Collection<Faculty> >findByNameContainsIgnoreCase(
+            @RequestParam(required = false) String name, @RequestParam(required = false) String color) {
+        return ResponseEntity.ok(facultyService.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(name, color));
     }
 
 
@@ -52,8 +53,8 @@ public class FacultyController {
         return facultyService.updateFaculty(faculty.getId(), faculty);
     }
 
-    @DeleteMapping("/faculty")
-    public void deleteFaculty(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteFaculty(@PathVariable("id") Long id) {
          facultyService.deleteFaculty(id);
     }
 }

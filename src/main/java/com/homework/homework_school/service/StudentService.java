@@ -12,18 +12,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
 public class StudentService {
     @Autowired
     private final StudentRepository studentRepository;
-    @Autowired
-    private final FacultyRepository facultyRepository;
-    public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
+
+    public StudentService(StudentRepository studentRepository) {
 
         this.studentRepository = studentRepository;
-        this.facultyRepository = facultyRepository;
     }
 
     public Student createStudent(Student student) {
@@ -36,17 +35,12 @@ public class StudentService {
 
     }
 
-    public String getFacultyOfStudent(Long id) {
-        String student = studentRepository.findById(id).get().getFaculty().getName();
-        System.out.println("student = " + student);
-        return student;
+    public Faculty getFacultyOfStudent(Long id) {
+        Faculty faculty = Optional.of(studentRepository.findById(id).get().getFaculty())
+                .orElseGet(() -> studentRepository.findById(id).get().getFaculty());
+        return faculty;
     }
-
-//    public Collection<Student> getStudentsOfFaculty(Long id) {
-//        Student students = studentRepository.findById(id).get();
-//        return students.getFaculty().getStudents();
-//    }
-
+    
     public Student getAllStudent(int age) {
         List<Student> student = studentRepository.findAll();
         for (Student student1 : student) {

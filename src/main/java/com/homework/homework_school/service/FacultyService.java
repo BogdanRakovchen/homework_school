@@ -20,15 +20,12 @@ public class FacultyService {
     @Autowired
     private final FacultyRepository facultyRepository;
 
-    @Autowired
-    private final StudentRepository studentRepository;
 
-    public FacultyService(FacultyRepository facultyRepository, StudentRepository studentRepository) {
+
+    public FacultyService(FacultyRepository facultyRepository) {
 
 
         this.facultyRepository = facultyRepository;
-        this.studentRepository = studentRepository;
-
     }
 
 
@@ -43,16 +40,13 @@ public class FacultyService {
     }
 
     public Collection<Student> getStudentsOfFaculty(Long id) {
-        Collection<Student> students = null;
-        Long idx = facultyRepository.findById(id).get().getId();
-        if(idx == id) {
-           students = facultyRepository.findById(id).get().getStudents();
-        };
+        Collection<Student> students = Optional.of(facultyRepository.findById(id).get().getStudents())
+                                        .orElseGet(() -> facultyRepository.findById(id).get().getStudents());
         return students;
     }
 
-    public Faculty findByNameContainsIgnoreCase(String nameOrColor) {
-        return facultyRepository.findByNameContainsIgnoreCase(nameOrColor);
+    public Collection<Faculty> findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(String name, String color) {
+        return facultyRepository.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(name, color);
     }
 
 

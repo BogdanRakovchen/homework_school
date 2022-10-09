@@ -30,26 +30,20 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
-    @GetMapping("/student")
-    public Student getStudent(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public Student getStudent(@PathVariable("id") Long id) {
         return studentService.getStudent(id);
     }
 
 
-    @GetMapping("/facultyStudent")
-    public String getFacultyOfStudent(@RequestParam Long id) {
+    @GetMapping("/{id}}")
+    public Faculty getFacultyOfStudent(@PathVariable("id") Long id) {
         return studentService.getFacultyOfStudent(id);
     }
-//    @GetMapping
     public Student getAllStudentOfAge(int age) {
 
         return studentService.getAllStudent(age);
     }
-
-//    @GetMapping("/studentsOfFaculty")
-//    public Collection<Student> getStudentsOfFaculty(@RequestParam Long id) {
-//        return studentService.getStudentsOfFaculty(id);
-//    }
 
     @GetMapping("/studentAge")
     public ResponseEntity<Collection<Student>> getAllStudentOfRangeAge(@RequestParam int minAge, @RequestParam int maxAge) {
@@ -61,8 +55,8 @@ public class StudentController {
         return studentService.updateStudent(student.getId(), student);
     }
 
-    @DeleteMapping("/student")
-    public void deleteStudent(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable("id") Long id) {
         studentService.deleteStudent(id);
     }
 
