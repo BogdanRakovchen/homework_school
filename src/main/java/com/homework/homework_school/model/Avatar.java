@@ -20,15 +20,23 @@ public class Avatar {
 
     private String mediaType;
 
+    @Lob
     private byte[] data;
 
-    @Value("${path.to.avatars.folder}")
-    private String avatarsDir;
 
-    @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "student_id")
     private Student student;
+
+    public Avatar() {
+    }
+
+    public Avatar(Long id, String filePath, String mediaType, long fileSize, Student student) {
+        this.id = id;
+        this.filePath = filePath;
+        this.mediaType = mediaType;
+        this.fileSize = fileSize;
+        this.student = student;
+    }
 
     public Long getId() {
         return id;
@@ -101,7 +109,7 @@ public class Avatar {
                 '}';
     }
 
-    public String getAvatarsDir() {
-        return avatarsDir;
-    }
+//    public String getAvatarsDir() {
+//        return avatarsDir;
+//    }
 }

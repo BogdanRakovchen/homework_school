@@ -5,6 +5,7 @@ import com.homework.homework_school.model.Student;
 import com.homework.homework_school.repository.AvatarRepository;
 import com.homework.homework_school.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,13 +18,14 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class AvatarService {
 
-    @Autowired
     private final AvatarRepository avatarRepository;
 
     private final StudentRepository studentRepository;
 
     private Avatar avatar;
 
+    @Value("${path.to.avatars.folder}")
+    private String avatarsDir;
 
     public AvatarService(AvatarRepository avatarRepository, StudentRepository studentRepository) {
         this.avatarRepository = avatarRepository;
@@ -31,8 +33,12 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
-        Student student = studentRepository.findById(studentId).orElse(null).getAvatar().getStudent();
-        Path filePath = Path.of(avatar.getAvatarsDir(), student + "." + getExtensions(avatarFile.getOriginalFilename()));
+        Student student = studentRepository.findById(studentId).orElseThrow();
+//        if(this.avatar == null) {
+//            return;
+//        }
+        Path filePath = Path.of(avatarsDir, studentId + getExtensions(avatarFile.getOriginalFilename()));
+        System.out.println(filePath.getParent());
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -44,7 +50,7 @@ public class AvatarService {
                 ) {
           bis.transferTo(bos);
         } catch (IOException e) {
-            Avatar avatarImage = findAvatar(studentId);
+            Avatar avatarImage = avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
             avatarImage.setStudent(student);
             avatarImage.setFilePath(filePath.toString());
             avatarImage.setFileSize(avatarFile.getSize());
@@ -57,11 +63,8 @@ public class AvatarService {
         }
 
     private String getExtensions(String fileName) {
-        return fileName.substring(fileName.lastIndexOf((".") + 1));
+        return fileName.substring(fileName.lastIndexOf((".")));
     }
 
-    private Avatar findAvatar(Long studentId) {
-        return studentRepository.findById(studentId).orElse(null).getAvatar();
-    }
 
 }

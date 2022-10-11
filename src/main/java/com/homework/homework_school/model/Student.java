@@ -22,7 +22,6 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "student")
     private Avatar avatar;
 
