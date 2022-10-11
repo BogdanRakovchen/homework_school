@@ -36,9 +36,8 @@ public class StudentService {
     }
 
     public Faculty getFacultyOfStudent(Long id) {
-        Faculty faculty = Optional.of(studentRepository.findById(id).get().getFaculty())
-                .orElseGet(() -> studentRepository.findById(id).get().getFaculty());
-        return faculty;
+        return studentRepository.findById(id).orElse(null).getFaculty();
+
     }
     
     public Student getAllStudent(int age) {

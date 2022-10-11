@@ -22,6 +22,10 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "student")
+    private Avatar avatar;
+
 
 
 
@@ -74,5 +78,9 @@ public class Student {
 
     public Faculty getFaculty() {
         return faculty;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
     }
 }

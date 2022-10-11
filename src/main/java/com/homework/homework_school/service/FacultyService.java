@@ -40,14 +40,14 @@ public class FacultyService {
     }
 
     public Collection<Student> getStudentsOfFaculty(Long id) {
-        Collection<Student> students = Optional.of(facultyRepository.findById(id).get().getStudents())
-                                        .orElseGet(() -> facultyRepository.findById(id).get().getStudents());
+        Collection<Student> students = facultyRepository.findById(id).map(faculty -> faculty.getStudents()).orElseGet(Collections::emptyList);
         return students;
     }
 
-    public Collection<Faculty> findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(String name, String color) {
-        return facultyRepository.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(name, color);
+    public Faculty findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(String nameOrColor, String nameOrColor1) {
+        return facultyRepository.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(nameOrColor, nameOrColor1);
     }
+
 
 
     public Faculty getAllFaculty(String color) {
