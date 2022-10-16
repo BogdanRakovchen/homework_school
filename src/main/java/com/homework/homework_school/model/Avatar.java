@@ -24,19 +24,10 @@ public class Avatar {
     private byte[] data;
 
 
+
+    @JsonIgnore
     @OneToOne
     private Student student;
-
-    public Avatar() {
-    }
-
-    public Avatar(Long id, String filePath, String mediaType, long fileSize, Student student) {
-        this.id = id;
-        this.filePath = filePath;
-        this.mediaType = mediaType;
-        this.fileSize = fileSize;
-        this.student = student;
-    }
 
     public Long getId() {
         return id;

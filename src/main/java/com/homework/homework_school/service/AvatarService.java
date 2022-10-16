@@ -18,9 +18,9 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class AvatarService {
 
-    private final AvatarRepository avatarRepository;
+    private AvatarRepository avatarRepository;
 
-    private final StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     private Avatar avatar;
 
@@ -34,11 +34,8 @@ public class AvatarService {
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
         Student student = studentRepository.findById(studentId).orElseThrow();
-//        if(this.avatar == null) {
-//            return;
-//        }
+        //System.out.println("student.getName() = " + student.getAvatar().getFilePath());
         Path filePath = Path.of(avatarsDir, studentId + getExtensions(avatarFile.getOriginalFilename()));
-        System.out.println(filePath.getParent());
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -48,22 +45,30 @@ public class AvatarService {
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
                 BufferedOutputStream bos = new BufferedOutputStream(os, 1024);
                 ) {
+
           bis.transferTo(bos);
-        } catch (IOException e) {
-            Avatar avatarImage = avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
+            Avatar avatarImage = avatarRepository.findById(studentId).orElseGet(Avatar::new);
             avatarImage.setStudent(student);
             avatarImage.setFilePath(filePath.toString());
             avatarImage.setFileSize(avatarFile.getSize());
             avatarImage.setMediaType(avatarFile.getContentType());
             avatarImage.setData(avatarFile.getBytes());
-            avatarRepository.save(avatar);
+            avatarRepository.save(avatarImage);
+        } catch (IOException e) {
+            Avatar avatarImage = avatarRepository.findById(studentId).orElseGet(Avatar::new);
+            avatarImage.setStudent(student);
+            avatarImage.setFilePath(filePath.toString());
+            avatarImage.setFileSize(avatarFile.getSize());
+            avatarImage.setMediaType(avatarFile.getContentType());
+            avatarImage.setData(avatarFile.getBytes());
+            avatarRepository.save(avatarImage);
 
         }
 
         }
 
     private String getExtensions(String fileName) {
-        return fileName.substring(fileName.lastIndexOf((".")));
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
 

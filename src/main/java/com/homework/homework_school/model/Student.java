@@ -22,9 +22,16 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "student")
     private Avatar avatar;
 
+
+    public Student(Long id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
 
 
 

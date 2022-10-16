@@ -4,7 +4,9 @@ import com.homework.homework_school.model.Faculty;
 import com.homework.homework_school.model.Student;
 import com.homework.homework_school.service.FacultyService;
 import com.homework.homework_school.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -14,6 +16,7 @@ import java.util.stream.Stream;
 @RequestMapping("/students")
 public class StudentController {
 
+    @Autowired
     private final StudentService studentService;
     private final FacultyService facultyService;
 
@@ -50,7 +53,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
     }
 
-    @PutMapping
+    @PutMapping()
     public Student updateStudent(@RequestBody Student student) {
         return studentService.updateStudent(student.getId(), student);
     }
