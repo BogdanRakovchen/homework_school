@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 @Service
 public class StudentService {
-    @Autowired
+
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -63,6 +63,17 @@ public class StudentService {
 
     }
 
+    public int getAllStudents() {
+        return studentRepository.findByAllStudent();
+    }
+
+    public int getAvarageAgeAllStudents() {
+        return studentRepository.findByAvarageAgeAllStudents();
+    }
+
+    public Collection<Student> getFiveLastOfStudents() {
+        return studentRepository.findByFiveLastOfStudents();
+    }
 
 
 }

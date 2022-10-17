@@ -53,6 +53,21 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
     }
 
+    @GetMapping("/allStudents")
+    public int getAllStudents() {
+        return studentService.getAllStudents();
+    }
+
+    @GetMapping("/avarage-age-students")
+    public int getAvarageAgeAllStudents() {
+        return studentService.getAvarageAgeAllStudents();
+    }
+
+    @GetMapping("/five-last-students")
+    public Collection<Student> getFiveLastOfStudents() {
+        return studentService.getFiveLastOfStudents();
+    }
+
     @PutMapping()
     public Student updateStudent(@RequestBody Student student) {
         return studentService.updateStudent(student.getId(), student);
