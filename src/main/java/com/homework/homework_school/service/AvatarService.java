@@ -3,19 +3,15 @@ package com.homework.homework_school.service;
 import com.homework.homework_school.model.Avatar;
 import com.homework.homework_school.model.Student;
 import com.homework.homework_school.repository.AvatarRepository;
-import com.homework.homework_school.repository.AvatarRepositoryPagable;
 import com.homework.homework_school.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.CollationKey;
 import java.util.Collection;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -23,11 +19,9 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class AvatarService {
 
-    private AvatarRepository avatarRepository;
+    private final AvatarRepository avatarRepository;
 
-    private AvatarRepositoryPagable avatarRepositoryPagable;
-
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     private Avatar avatar;
 
@@ -35,11 +29,11 @@ public class AvatarService {
     private String avatarsDir;
 
     public AvatarService(AvatarRepository avatarRepository,
-                         StudentRepository studentRepository,
-                         AvatarRepositoryPagable avatarRepositoryPagable) {
+                         StudentRepository studentRepository
+                        ) {
         this.avatarRepository = avatarRepository;
         this.studentRepository = studentRepository;
-        this.avatarRepositoryPagable = avatarRepositoryPagable;
+
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
@@ -83,7 +77,7 @@ public class AvatarService {
 
     public Collection<Avatar> getAvatars(Integer page, Integer size ) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return avatarRepositoryPagable.findAll(pageRequest).getContent();
+        return avatarRepository.findAll(pageRequest).getContent();
     }
 
 }

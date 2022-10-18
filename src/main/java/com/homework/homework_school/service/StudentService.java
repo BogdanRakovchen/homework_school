@@ -67,7 +67,7 @@ public class StudentService {
         return studentRepository.findByAllStudent();
     }
 
-    public int getAvarageAgeAllStudents() {
+    public double getAvarageAgeAllStudents() {
         return studentRepository.findByAvarageAgeAllStudents();
     }
 
