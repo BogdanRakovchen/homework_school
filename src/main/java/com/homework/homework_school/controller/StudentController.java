@@ -78,9 +78,21 @@ public class StudentController {
         studentService.deleteStudent(id);
     }
 
+//    список студентов на букву А в верхнем регистре
+    @GetMapping("/allstudents")
+    public Collection<String> findByAllStudents() {
+        return studentService.findByAllStudents();
+    }
+    //    средний возраст всех студентов
+    @GetMapping("/avarageAgeOfStudents")
+    public int findAvarageAgeAllStudents() {
+        return studentService.findAvarageAgeAllStudents();
+    }
 
 
-
-
+    @GetMapping("/stream")
+    public int streamParallel() {
+        return studentService.streamParallel();
+    }
 
 }

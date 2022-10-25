@@ -17,6 +17,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT COUNT(*) FROM student", nativeQuery = true)
     int findByAllStudent();
 
+    @Query(value = "SELECT * FROM student WHERE student.name LIKE 'A%' ", nativeQuery = true)
+    Collection<Student> findByAllStudents();
+
+
     @Query(value = "SELECT AVG(age) FROM student", nativeQuery = true)
     double findByAvarageAgeAllStudents();
 

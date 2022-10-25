@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -89,6 +91,41 @@ public class StudentService {
     public Collection<Student> getFiveLastOfStudents() {
         logger.info("getFiveLastOfStudents");
         return studentRepository.findByFiveLastOfStudents();
+    }
+
+    //    список студентов на букву А в верхнем регистре
+    public Collection<String> findByAllStudents() {
+        Collection<Student> students = studentRepository.findByAllStudents();
+        Collection<String> studentsCollection = students.stream().map(e -> e.getName().toUpperCase()).sorted().collect(Collectors.toList());
+        return studentsCollection;
+    }
+
+//    средний возраст всех студентов
+    public Integer findAvarageAgeAllStudents() {
+        Collection<Student> students = studentRepository.findAll();
+        logger.info(students.size() + "");
+        Collection<Integer> studentCollection = students.stream().map(e -> e.getAge()).collect(Collectors.toList());
+        Integer studentSize = students.size();
+        Integer sumAgeOfStudents = studentCollection.stream().reduce(0, (sub, elem) -> (sub + elem));
+        Integer avarageAgeOfStudents = sumAgeOfStudents / studentSize;
+        logger.info(avarageAgeOfStudents + "");
+        return avarageAgeOfStudents;
+    }
+
+//    parallel
+
+    public int streamParallel() {
+
+      Stream<Integer> computed = Stream
+                .iterate(1, a -> a + 1)
+                .parallel()
+                .limit(1_000_000);
+
+       int sum = computed.reduce(0, (a, b) -> a + b );
+
+       return sum;
+
+
     }
 
 

@@ -46,13 +46,9 @@ public class FacultyController {
 
 
     @GetMapping("/facultyOfName")
-   public Faculty findByNameOrColorContainsIgnoreCase(@RequestParam(required = false) String nameOrColor, @RequestParam(required = false) String nameOrColor1) {
+    public Faculty findByNameOrColorContainsIgnoreCase(@RequestParam(required = false) String nameOrColor, @RequestParam(required = false) String nameOrColor1) {
         return facultyService.findByNameContainsIgnoreCaseOrColorContainsIgnoreCase(nameOrColor, nameOrColor1);
     }
-
-
-
-
 
 
     @PutMapping
@@ -62,6 +58,13 @@ public class FacultyController {
 
     @DeleteMapping("/{id}")
     public void deleteFaculty(@PathVariable("id") Long id) {
-         facultyService.deleteFaculty(id);
+        facultyService.deleteFaculty(id);
     }
+
+
+    @GetMapping("/longFacultyName")
+    public String findLongNameOfFaculty() {
+        return facultyService.findLongNameFaculty();
+    }
+
 }
