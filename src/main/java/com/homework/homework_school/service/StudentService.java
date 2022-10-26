@@ -95,21 +95,22 @@ public class StudentService {
 
     //    список студентов на букву А в верхнем регистре
     public Collection<String> findByAllStudents() {
-        Collection<Student> students = studentRepository.findByAllStudents();
-        Collection<String> studentsCollection = students.stream().map(e -> e.getName().toUpperCase()).sorted().collect(Collectors.toList());
+
+        Collection<String> studentsCollection = studentRepository.findAll()
+                .stream()
+                .filter(e -> e.getName().startsWith("A"))
+                .map(e -> e.getName().toUpperCase()).sorted().collect(Collectors.toList());
         return studentsCollection;
     }
 
 //    средний возраст всех студентов
-    public Integer findAvarageAgeAllStudents() {
-        Collection<Student> students = studentRepository.findAll();
-        logger.info(students.size() + "");
-        Collection<Integer> studentCollection = students.stream().map(e -> e.getAge()).collect(Collectors.toList());
-        Integer studentSize = students.size();
-        Integer sumAgeOfStudents = studentCollection.stream().reduce(0, (sub, elem) -> (sub + elem));
-        Integer avarageAgeOfStudents = sumAgeOfStudents / studentSize;
-        logger.info(avarageAgeOfStudents + "");
-        return avarageAgeOfStudents;
+    public double findAvarageAgeAllStudents() {
+
+        double students = studentRepository.findAll()
+                .stream().map(e -> e.getAge())
+                .reduce(0, (sub, elem) -> (sub + elem)).doubleValue() / studentRepository.count();
+
+        return students;
     }
 
 //    parallel

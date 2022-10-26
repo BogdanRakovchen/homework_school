@@ -72,18 +72,11 @@ public class FacultyService {
 
 //    long faculty
     public String findLongNameFaculty() {
-        Collection<Faculty> faculties = facultyRepository.findAll();
-        int lengthName = faculties.stream()
-                .mapToInt(e -> e.getName().length())
-                .max().orElseThrow(NoSuchElementException::new);
+        String faculties = facultyRepository.findAll()
+                .stream()
+                .map(e -> e.getName())
+                .max(Comparator.comparingInt(e -> e.length())).orElse(null);
 
-        Collection<Faculty> longNameOfFaculty = faculties.stream()
-                .filter(e -> e.getName().length() == lengthName).collect(Collectors.toList());
-
-        String name = longNameOfFaculty.stream().findAny().orElse(null).getName();
-
-
-
-        return name;
+        return faculties;
     }
 }

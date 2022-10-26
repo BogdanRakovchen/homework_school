@@ -85,7 +85,7 @@ public class StudentController {
     }
     //    средний возраст всех студентов
     @GetMapping("/avarageAgeOfStudents")
-    public int findAvarageAgeAllStudents() {
+    public double findAvarageAgeAllStudents() {
         return studentService.findAvarageAgeAllStudents();
     }
 
