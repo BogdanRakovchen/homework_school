@@ -125,8 +125,54 @@ public class StudentService {
        int sum = computed.reduce(0, (a, b) -> a + b );
 
        return sum;
+    }
 
 
+
+
+      public void firstStudents() {
+          studentRepository.findAll().stream()
+                  .limit(2)
+                  .forEach(e -> System.out.println(e.getName()));
+            }
+
+    Thread thread2 = new Thread() {
+        public void run() {
+            List<Student> students = studentRepository.findAll();
+            int i = 0;
+
+        for (; i < students.size(); i++) {
+            if(i > 1 && i < 4) {
+                int finalI = i;
+
+                System.out.println(students.get(finalI).getName());
+
+
+            }
+         }
+        }
+    };
+
+    Thread thread3 = new Thread() {
+        public void run() {
+            List<Student> students = studentRepository.findAll();
+            int i = 0;
+
+            for (; i < students.size(); i++) {
+                if(i >= 4 && i <= 5) {
+                    int finalI1 = i;
+
+                        System.out.println(students.get(finalI1).getName());
+
+                }
+            }
+        }
+    };
+
+
+    public void output() {
+        thread2.start();
+        thread3.start();
     }
 
 

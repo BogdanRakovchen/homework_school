@@ -95,4 +95,16 @@ public class StudentController {
         return studentService.streamParallel();
     }
 
+    @GetMapping("/outputStream")
+    public void outputNameOfStudentsStream() {
+
+        System.out.println("\"run\" = " + "run");
+
+        studentService.firstStudents();
+
+        studentService.output();
+
+
+    }
+
 }
