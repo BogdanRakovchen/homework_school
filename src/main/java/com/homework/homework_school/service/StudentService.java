@@ -169,7 +169,6 @@ public class StudentService {
         }
     };
 
-
     public void output() {
         thread2.start();
         thread3.start();

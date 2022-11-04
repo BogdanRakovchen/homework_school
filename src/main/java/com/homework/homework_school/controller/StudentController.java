@@ -98,7 +98,6 @@ public class StudentController {
     @GetMapping("/outputStream")
     public void outputNameOfStudentsStream() {
 
-        System.out.println("\"run\" = " + "run");
 
         studentService.firstStudents();
 

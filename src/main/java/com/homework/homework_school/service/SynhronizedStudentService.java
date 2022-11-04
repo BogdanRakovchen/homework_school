@@ -20,22 +20,27 @@ public class SynhronizedStudentService {
                 .forEach(e -> System.out.println(e.getName()));
     }
 
+    List<Student> students;
+
+
+
     Thread thread2 = new Thread() {
         public void run() {
-            List<Student> students = studentRepository.findAll();
+            students = studentRepository.findAll();
             int i = 0;
+            synchronized (students) {
 
-                for (; i < students.size(); i++) {
-                    if (i > 1 && i < 4) {
-                        int finalI = i;
-                        synchronized (students.get(finalI).getName()) {
-
-                        System.out.println(students.get(finalI).getName());
+            for (; i < students.size(); i++) {
+                if (i > 1 && i < 4) {
+                    int finalI = i;
 
 
-                    }
+                    System.out.println(students.get(finalI).getName());
+
+
                 }
             }
+        }
         }
     };
 
@@ -44,10 +49,12 @@ public class SynhronizedStudentService {
             List<Student> students = studentRepository.findAll();
             int i = 0;
 
+            synchronized (students) {
+
                 for (; i < students.size(); i++) {
                     if (i >= 4 && i <= 5) {
                         int finalI1 = i;
-                        synchronized (students.get(finalI1).getName()) {
+
 
                         System.out.println(students.get(finalI1).getName());
 
